@@ -1,0 +1,55 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+public class AttackingQueens {
+
+	public static void main(String[] args) {
+
+		Scanner sc = new Scanner(System.in);
+		
+		List<String> queens = new ArrayList<String>();
+		Map<Integer,Integer> sum = new HashMap<>();
+		Map<Integer,Integer> diff = new HashMap<>();
+		
+		int i;
+		int attackingPairs=0;
+		
+		System.out.println("Enter number of co-ordinates");
+		int size = sc.nextInt();
+		
+		System.out.println("Enter Cordinate x and y ");
+		for(i = 0; i < size; i++) {
+			int x = sc.nextInt();
+			int y = sc.nextInt();
+			queens.add(x + "," + y );
+			sum.put( x + y , ( (sum.get( x + y ) != null ) ? ( sum.get( x + y ) + 1) : 1 ) );
+			diff.put(Math.abs(x-y),( (diff.get( Math.abs( x- y )) != null ) ? ( diff.get( x - y ) + 1) : 1 ));
+		}		
+		
+		for(i = 0 ;i < queens.size(); i++) {
+			System.out.println(queens.get(i));
+		}		
+		
+		for(Integer key : sum.keySet()) {
+			int pairs = sum.get(key);
+			if(pairs%2 == 0) {
+				attackingPairs += 1;
+				sum.put(key, sum.get(key) - 2 );
+			}
+		}
+		
+		for(Integer key : diff.keySet()) {
+			int pairs = diff.get(key);
+			if(pairs%2 ==0) {
+				attackingPairs += 1;
+				diff.put(key, diff.get(key) - 2 );
+			}
+		}
+		
+		System.out.println("The Attacking Pairs are " + attackingPairs);
+		sc.close();
+	}
+}
